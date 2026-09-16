@@ -4,8 +4,10 @@
   "type": "module",
   "description": "A composable Pi extension that fuses 2-5 configured models with N-way opinion, fusion, debate, and single-writer collaboration.",
   "scripts": {
-    "test": "bun test extensions/fusion-harness/tests",
-    "test:fusion-harness": "bun test extensions/fusion-harness/tests"
+    "test": "bun test extensions/fusion-harness/tests scripts/runpod/tests",
+    "test:fusion-harness": "bun test extensions/fusion-harness/tests",
+    "test:runpod": "bun test scripts/runpod/tests",
+    "runpod": "bun scripts/runpod.ts"
   },
   "dependencies": {
     "yaml": "^2.9.0"

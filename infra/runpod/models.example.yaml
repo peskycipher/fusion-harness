@@ -1,0 +1,28 @@
+# Copy to models.yaml and replace BOTH immutable version placeholders.
+# This is a configuration example, not a benchmarked hardware/model pairing.
+# Any compatible Hugging Face fine-tune can be used, including uncensored models.
+version: 1
+project: fusion
+models:
+  onyx:
+    model: NousResearch/Hermes-3-Llama-3.1-8B
+    revision: REPLACE_WITH_40_CHARACTER_HF_COMMIT_SHA
+    # Use a RunPod worker-vllm image, not the plain vllm/vllm-openai image.
+    image: runpod/worker-vllm@sha256:REPLACE_WITH_64_CHARACTER_IMAGE_DIGEST
+    toolCallParser: hermes
+    gpuTypeIds: [NVIDIA GeForce RTX 4090]
+    gpuCount: 1
+    contextWindow: 16384
+    maxTokens: 4096
+    containerDiskInGb: 50
+    workersMin: 0
+    workersMax: 1
+    idleTimeout: 300
+    executionTimeoutMs: 600000
+    # Optional, must match the checkpoint:
+    # quantization: awq
+    # Existing RunPod secret NAME, never the token itself:
+    # hfTokenSecret: huggingface_token
+    # Optional existing volume (not created/deleted by this CLI):
+    # networkVolumeId: YOUR_VOLUME_ID
+    # dataCenterIds: [EU-RO-1]

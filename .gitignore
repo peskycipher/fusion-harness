@@ -30,6 +30,9 @@ venv/
 # against any stray local run output landing here.
 *.log
 /tmp-artifacts/
+.runpod/
+infra/runpod/models.yaml
+*.runpod-backup
 
 # Local parking lot for unused assets and scratch files — never committed.
 /tmp/

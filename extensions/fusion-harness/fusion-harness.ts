@@ -49,6 +49,7 @@ import { registerAutoValidateCommand, registerCollaborateCommand } from "./modul
 import { registerFusionCommand } from "./modules/cmd-fusion.ts";
 import { registerReadonlyCommands } from "./modules/cmd-readonly.ts";
 import { piInvocation, runChild } from "./modules/child-runner.ts";
+import { costLabel } from "./modules/billing.ts";
 import {
 	cloneStack,
 	loadModelStack,
@@ -645,7 +646,7 @@ export default function (pi: ExtensionAPI) {
 							const perfTokens = (perf?.outputTokens ?? 0) + (extra?.tokensOut ?? 0);
 							const perfSeconds = (perf?.seconds ?? 0) + (extra?.tpsSeconds ?? 0);
 							const perfCost = (perf?.costUsd ?? 0) + (extra?.costUsd ?? 0);
-							const perfStr = `${perfTokens > 0 && perfSeconds > 0 ? `${Math.round(perfTokens / perfSeconds)} tps` : "— tps"} | $${perfCost.toFixed(4)}`;
+							const perfStr = `${perfTokens > 0 && perfSeconds > 0 ? `${Math.round(perfTokens / perfSeconds)} tps` : "— tps"} | ${costLabel(model, perfCost)}`;
 							return truncateToWidth(cellStr(theme, role, model, active?.thinking ?? slot.thinking, bar(used, window), slot, perfStr), width);
 						});
 					},
