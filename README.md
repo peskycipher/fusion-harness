@@ -60,6 +60,11 @@ Model rankings flip every month. Betting a workflow on ONE frontier model means 
 
 ## Launch
 
+For self-hosted Hugging Face inference, the [RunPod Serverless integration](docs/runpod-serverless.md)
+adds a provisioning CLI, deployment profiles, live transport checks, and Pi provider
+registration. Start with `bun scripts/runpod.ts --help`. Models and runtime images
+must be explicitly configured and validated on your GPU deployment.
+
 The fusion stack (Fable 5 architect + Gemini 3.7 Flash Main + DeepSeek V4 Pro):
 
 ```bash

@@ -1,0 +1,12 @@
+# Both slots intentionally share one endpoint for the initial smoke test.
+# Change model values to distinct registered profiles for multi-model fusion.
+- name: architect
+  model: runpod-fusion-onyx/onyx
+  thinking: off
+  architect: true
+  color: "#A78BFA"
+- name: builder
+  model: runpod-fusion-onyx/onyx
+  thinking: off
+  primary: true
+  color: "#22D3EE"

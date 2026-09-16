@@ -38,3 +38,12 @@ fusion *ARGS:
 # 5-slot fusion stack: fusion trio + fire=Kimi K3 + hawk=DeepSeek V4 Flash (both Fireworks)
 fusion5 *ARGS:
     just fh-stack .pi/fusion-harness/model-stack-fusion-5.yaml {{ARGS}}
+
+# RunPod provisioning and lifecycle management.
+runpod COMMAND PROFILE *ARGS:
+    bun scripts/runpod.ts {{COMMAND}} {{PROFILE}} {{ARGS}}
+
+# Live validation before starting Pi; the management key is removed for agents.
+fh-runpod:
+    bun scripts/runpod.ts validate onyx
+    env -u RUNPOD_API_KEY pi -e extensions/fusion-harness/fusion-harness.ts --fh-config .pi/fusion-harness/model-stack-runpod.yaml

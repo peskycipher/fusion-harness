@@ -8,6 +8,7 @@
  */
 
 import type { HexColor, ModelSlot, ModelStack, Thinking } from "./model-stack.ts";
+import { costLabel, gpuBilled } from "./billing.ts";
 
 // ═══ Tool allowlists ═════════════════════════════════════════════════════════
 
@@ -349,7 +350,7 @@ export function statLine(s: AgentStat): string {
 	if (s.tokensIn || s.tokensOut) parts.push(`in ${fmtK(s.tokensIn)} out ${fmtK(s.tokensOut)}`);
 	if (s.tps) parts.push(`${Math.round(s.tps)} tps`);
 	if (s.toolCalls) parts.push(`${s.toolCalls} tools`);
-	if (s.costUsd) parts.push(`$${s.costUsd.toFixed(4)}`);
+	if (s.costUsd || gpuBilled(s.model)) parts.push(costLabel(s.model, s.costUsd));
 	return parts.join(" · ");
 }
 
@@ -363,7 +364,7 @@ export function statLines(s: AgentStat): string[] {
 	if (s.tokensOut) lines.push(`TOKENS OUT: ${fmtK(s.tokensOut)}`);
 	if (s.tps) lines.push(`TPS: ${Math.round(s.tps)}`);
 	if (s.toolCalls) lines.push(`TOOLS: ${s.toolCalls}`);
-	if (s.costUsd) lines.push(`COST: $${s.costUsd.toFixed(4)}`);
+	if (s.costUsd || gpuBilled(s.model)) lines.push(`COST: ${costLabel(s.model, s.costUsd)}`);
 	return lines;
 }
 
