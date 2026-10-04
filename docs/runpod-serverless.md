@@ -173,8 +173,33 @@ configuration until removal completes.
 The OpenAI compatibility transport does not expose a managed job ID here, so remote
 job cancellation, automatic retry/backoff, in-session provisioning, billing
 reconciliation, and whole-harness live qualification remain explicit follow-ups.
-RunPod's load-balancing endpoints are not used; they have different request limits
-and require a different worker/transport configuration.
+
+## Registering endpoints as Pi providers (`/init-model`)
+
+Any deployed RunPod endpoint that speaks the OpenAI API can be wired into Pi
+with the project slash command `/init-model <name> <runpod-url>`
+(`.pi/prompts/init-model.md`). Accepted URL forms: load-balancing endpoints
+directly (`https://ENDPOINT_ID.api.runpod.ai/v1`), and queue-based vLLM
+endpoints through RunPod's OpenAI gateway
+(`https://api.runpod.ai/v2/ENDPOINT_ID/openai/v1`). The bare job-API form
+(`https://api.runpod.ai/v2/ENDPOINT_ID`) is rejected with an explanation —
+the `/run` job protocol is not OpenAI-compatible.
+
+The command is registration-only: it reads endpoint metadata (GraphQL,
+read-only), runs confirmed live validation (readiness polling, model
+discovery with per-model context when the service exposes `max_model_len`,
+a small completion, reasoning-separation evidence, and a tool-calling round
+trip), merges the `runpod-<name>` provider into Pi's models.json
+(idempotent, env-key reference only), and records the wiring in
+`infra/runpod/.runpod/<name>.provider.md` (ignored). It never creates,
+mutates, or deletes anything on RunPod, and never touches the queue-based
+profiles above beyond reading them — registering one of them is allowed.
+
+Load-balancing endpoints have different limits than queue-based ones
+(5.5-minute processing limit per request, 2-minute no-worker timeout, 30 MB
+payloads); the OpenAI gateway instead inherits the queue-based job timeouts.
+Every validation request can cold-start a billable worker, so the command
+confirms before spending and never auto-retries paid requests.
 
 ## API contracts
 
@@ -184,5 +209,6 @@ and require a different worker/transport configuration.
 - [OpenAI API compatibility](https://docs.runpod.io/serverless/vllm/openai-compatibility)
 - [Model caching](https://docs.runpod.io/serverless/endpoints/model-caching)
 - [Secret references](https://docs.runpod.io/pods/templates/secrets)
+- [Load balancing endpoints](https://docs.runpod.io/serverless/load-balancing/overview)
 - [Pi custom providers](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/models.md)
 - [vLLM tool calling](https://docs.vllm.ai/en/latest/features/tool_calling/)

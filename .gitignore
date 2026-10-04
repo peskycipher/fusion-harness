@@ -2,7 +2,6 @@
 # .env holds real API keys (ANTHROPIC, SERPAPI, DATAFORSEO, GITHUB_TOKEN, etc.)
 .env
 .env.*
-!.env.example
 !.env.template
 
 # --- Node / TypeScript ---
@@ -50,3 +49,6 @@ Thumbs.db
 .vscode/*
 !.vscode/settings.json
 !.vscode/extensions.json
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/

@@ -2,7 +2,7 @@
 # rune: Fable 5 architect · flux: Gemini 3.7 Flash primary/Main · drift: DeepSeek V4 Pro (Fireworks)
 # Every slot appends the shared communication contract (path relative to this YAML).
 - name: rune
-  model: anthropic/claude-fable-5
+  model: fireworks/accounts/fireworks/models/deepseek-v4-pro-0813
   thinking: medium
   architect: true
   color: "#7DD3FC"
@@ -10,7 +10,7 @@
     - ../../system_prompt_fixing_opus_5_great_communication.md
 
 - name: flux
-  model: google/gemini-3.7-flash
+  model: fireworks/accounts/fireworks/models/deepseek-v4-pro-0813
   thinking: medium
   primary: true
   color: "#F59E0B"
